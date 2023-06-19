@@ -1,10 +1,14 @@
 import random
+
+import pygame
+
 from game.components.enemies.enemy import Enemy
 
 
 class EnemyManager:
     def __init__(self):
         self.enemies = []
+        self.death_sound = pygame.mixer.Sound('game/assets/sounds/die.wav')
 
     def update(self, game):
         self.add_enemy()

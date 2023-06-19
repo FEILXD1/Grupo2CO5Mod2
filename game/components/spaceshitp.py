@@ -16,17 +16,29 @@ class Spaceship(Sprite):
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
         self.type = 'player'
+        self.power_up_applied = False
+        self.shield_active = False
+        self.sword_active = False
+        self.rotten_rayo_active = False
+        self.pew = pygame.mixer.Sound('game/assets/sounds/pew-pew-lame-sound-effect.mp3')
+        self.setup_state()#estado inicial
+
+    def setup_state(self):
+        self.has_power_up = False
+        self.show_text = False
+        self.shield_time_up = 0
 
     def update(self, user_input, game):
-        if user_input[pygame.K_LEFT]:
+
+        if (user_input[pygame.K_LEFT] or user_input[pygame.K_d]):
             self.move_left()
-        if user_input[pygame.K_RIGHT]:
+        elif (user_input[pygame.K_RIGHT]or user_input[pygame.K_a]):
             self.move_right()
-        if user_input[pygame.K_UP]:
+        elif (user_input[pygame.K_UP]or user_input[pygame.K_w]):
             self.move_up()
-        if user_input[pygame.K_DOWN]:
+        elif (user_input[pygame.K_DOWN]or user_input[pygame.K_s]):
             self.move_down()
-        if user_input[pygame.K_SPACE]:
+        elif user_input[pygame.K_SPACE]:
             self.shoot(game)
 
     def move_left(self):
@@ -53,3 +65,5 @@ class Spaceship(Sprite):
     def shoot(self, game):
         bullet = Bullet(self)
         game.bullet_manager.add_bullet(bullet)
+        self.pew.play()
+        self.pew.set_volume(0.06)
